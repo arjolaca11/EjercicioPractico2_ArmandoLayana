@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/comunes :: cabecera('Inicio')}"></head>
+<body>
+<header th:replace="~{fragments/comunes :: navbar}"></header>
+
+<main class="container my-5">
+    <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+        <h1 class="display-5 fw-bold text-primary">Bienvenido a MediCare</h1>
+        <p class="col-lg-8 fs-5 text-secondary">
+            Plataforma para la administración de usuarios, roles y citas médicas del centro de salud.
+            Inicie sesión para gestionar la información según su rol asignado (Administrador, Médico o Paciente).
+        </p>
+        <a class="btn btn-primary btn-lg" th:href="@{/login}" sec:authorize="!isAuthenticated()">Iniciar sesión</a>
+        <a class="btn btn-primary btn-lg" th:href="@{/citas}" sec:authorize="isAuthenticated()">Ir a Citas Médicas</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Gestión de Usuarios</h5>
+                    <p class="card-text">Administración completa de usuarios del sistema y sus roles asignados.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Gestión de Citas Médicas</h5>
+                    <p class="card-text">Registro y control de citas por paciente, especialidad, fecha y costo.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Consultas Avanzadas</h5>
+                    <p class="card-text">Búsquedas por estado, rango de fechas, especialidad y rol de usuario.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/comunes :: footer}"></footer>
+</body>
+</html>

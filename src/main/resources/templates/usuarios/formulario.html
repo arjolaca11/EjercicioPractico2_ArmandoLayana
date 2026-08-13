@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Formulario de Usuario')}"></head>
+<body>
+<header th:replace="~{fragments/comunes :: navbar}"></header>
+
+<main class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="text-primary mb-3" th:text="${usuario.id == null ? 'Nuevo Usuario' : 'Editar Usuario'}">Usuario</h4>
+
+                    <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" th:field="*{nombre}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" th:field="*{email}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" th:field="*{password}"
+                                   th:placeholder="${usuario.id == null ? '' : 'Dejar en blanco para mantener la actual'}"
+                                   th:required="${usuario.id == null}" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rol</label>
+                            <select class="form-select" th:field="*{rol.id}" required>
+                                <option value="" disabled>Seleccione un rol</option>
+                                <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.nombre}">ROL</option>
+                            </select>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" th:field="*{activo}" />
+                            <label class="form-check-label">Activo</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a class="btn btn-outline-secondary" th:href="@{/usuarios}">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/comunes :: footer}"></footer>
+</body>
+</html>

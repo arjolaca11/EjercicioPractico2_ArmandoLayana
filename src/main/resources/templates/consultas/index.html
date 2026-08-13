@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/comunes :: cabecera('Consultas Avanzadas')}"></head>
+<body>
+<header th:replace="~{fragments/comunes :: navbar}"></header>
+
+<main class="container my-4">
+    <h2 class="text-primary mb-1">Consultas Avanzadas</h2>
+    <p class="text-secondary">Total de citas activas en el sistema: <strong th:text="${totalCitasActivas}">0</strong></p>
+
+    <div class="row g-4">
+        <!-- Consulta 1: por estado -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Citas por Estado</h5>
+                    <form th:action="@{/consultas/por-estado}" method="get" class="row g-2 align-items-end mb-3">
+                        <div class="col-8">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" name="activa">
+                                <option value="true">Activas</option>
+                                <option value="false">Inactivas</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                        </div>
+                    </form>
+                    <div th:if="${resultadoEstado != null}">
+                        <table class="table table-sm">
+                            <thead><tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th></tr></thead>
+                            <tbody>
+                                <tr th:each="c : ${resultadoEstado}">
+                                    <td th:text="${c.pacienteNombre}">-</td>
+                                    <td th:text="${c.especialidad}">-</td>
+                                    <td th:text="${c.fecha}">-</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(resultadoEstado)}">
+                                    <td colspan="3" class="text-muted text-center">Sin resultados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consulta 2: rango de fechas -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Citas por Rango de Fechas</h5>
+                    <form th:action="@{/consultas/por-rango-fechas}" method="get" class="row g-2 align-items-end mb-3">
+                        <div class="col-5">
+                            <label class="form-label">Desde</label>
+                            <input type="date" class="form-control" name="fechaInicio" required />
+                        </div>
+                        <div class="col-5">
+                            <label class="form-label">Hasta</label>
+                            <input type="date" class="form-control" name="fechaFin" required />
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                        </div>
+                    </form>
+                    <div th:if="${resultadoRango != null}">
+                        <table class="table table-sm">
+                            <thead><tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th></tr></thead>
+                            <tbody>
+                                <tr th:each="c : ${resultadoRango}">
+                                    <td th:text="${c.pacienteNombre}">-</td>
+                                    <td th:text="${c.especialidad}">-</td>
+                                    <td th:text="${c.fecha}">-</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(resultadoRango)}">
+                                    <td colspan="3" class="text-muted text-center">Sin resultados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consulta 3: especialidad -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Citas por Especialidad</h5>
+                    <form th:action="@{/consultas/por-especialidad}" method="get" class="row g-2 align-items-end mb-3">
+                        <div class="col-8">
+                            <label class="form-label">Especialidad (texto parcial)</label>
+                            <input type="text" class="form-control" name="texto" required />
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                        </div>
+                    </form>
+                    <div th:if="${resultadoEspecialidad != null}">
+                        <table class="table table-sm">
+                            <thead><tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th></tr></thead>
+                            <tbody>
+                                <tr th:each="c : ${resultadoEspecialidad}">
+                                    <td th:text="${c.pacienteNombre}">-</td>
+                                    <td th:text="${c.especialidad}">-</td>
+                                    <td th:text="${c.fecha}">-</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(resultadoEspecialidad)}">
+                                    <td colspan="3" class="text-muted text-center">Sin resultados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consulta 4: usuarios por rol -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Usuarios por Rol</h5>
+                    <form th:action="@{/consultas/por-rol}" method="get" class="row g-2 align-items-end mb-3">
+                        <div class="col-8">
+                            <label class="form-label">Rol</label>
+                            <select class="form-select" name="nombreRol">
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="MEDICO">MEDICO</option>
+                                <option value="PACIENTE">PACIENTE</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                        </div>
+                    </form>
+                    <div th:if="${resultadoUsuariosRol != null}">
+                        <table class="table table-sm">
+                            <thead><tr><th>Nombre</th><th>Email</th></tr></thead>
+                            <tbody>
+                                <tr th:each="u : ${resultadoUsuariosRol}">
+                                    <td th:text="${u.nombre}">-</td>
+                                    <td th:text="${u.email}">-</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(resultadoUsuariosRol)}">
+                                    <td colspan="2" class="text-muted text-center">Sin resultados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/comunes :: footer}"></footer>
+</body>
+</html>
