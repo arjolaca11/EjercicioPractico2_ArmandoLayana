@@ -11,6 +11,8 @@
                 <div class="card-body p-4">
                     <h4 class="text-primary mb-3" th:text="${rol.id == null ? 'Nuevo Rol' : 'Editar Rol'}">Rol</h4>
 
+                    <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
+
                     <form th:action="@{/roles/guardar}" th:object="${rol}" method="post">
                         <input type="hidden" th:field="*{id}" />
                         <div class="mb-3">

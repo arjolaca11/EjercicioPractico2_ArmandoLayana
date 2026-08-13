@@ -11,6 +11,8 @@
                 <div class="card-body p-4">
                     <h4 class="text-primary mb-3" th:text="${usuario.id == null ? 'Nuevo Usuario' : 'Editar Usuario'}">Usuario</h4>
 
+                    <div class="alert alert-danger" th:if="${error}" th:text="${error}">Error</div>
+
                     <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
                         <input type="hidden" th:field="*{id}" />
 

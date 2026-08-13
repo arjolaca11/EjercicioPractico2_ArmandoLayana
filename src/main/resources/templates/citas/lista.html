@@ -25,8 +25,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="cita : ${citas}">
-                        <td th:text="${cita.id}">1</td>
+                    <tr th:each="cita, iterCitas : ${citas}">
+                        <td th:text="${iterCitas.count}">1</td>
                         <td th:text="${cita.pacienteNombre}">Paciente</td>
                         <td th:text="${cita.especialidad}">Especialidad</td>
                         <td th:text="${cita.fecha}">2026-01-01</td>

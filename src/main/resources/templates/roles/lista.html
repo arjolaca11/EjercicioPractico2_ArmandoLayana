@@ -21,8 +21,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="rol : ${roles}">
-                        <td th:text="${rol.id}">1</td>
+                    <tr th:each="rol, iterRoles : ${roles}">
+                        <td th:text="${iterRoles.count}">1</td>
                         <td th:text="${rol.nombre}">ADMIN</td>
                         <td class="text-end">
                             <a class="btn btn-sm btn-outline-primary" th:href="@{/roles/editar/{id}(id=${rol.id})}">Editar</a>

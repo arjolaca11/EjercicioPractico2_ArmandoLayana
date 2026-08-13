@@ -1,5 +1,6 @@
 package com.medicare.app.controllers;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,13 +52,20 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Usuario usuario) {
-        if (usuario.getId() == null) {
-            usuarioService.registrarUsuario(usuario);
-        } else {
-            usuarioService.actualizarUsuario(usuario);
+    public String guardar(@ModelAttribute Usuario usuario, Model model) {
+        try {
+            if (usuario.getId() == null) {
+                usuarioService.registrarUsuario(usuario);
+            } else {
+                usuarioService.actualizarUsuario(usuario);
+            }
+            return "redirect:/usuarios";
+        } catch (DataIntegrityViolationException correoDuplicado) {
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("roles", rolService.listarTodos());
+            model.addAttribute("error", "Ya existe un usuario registrado con ese correo electrónico.");
+            return "usuarios/formulario";
         }
-        return "redirect:/usuarios";
     }
 
     @PostMapping("/eliminar/{id}")

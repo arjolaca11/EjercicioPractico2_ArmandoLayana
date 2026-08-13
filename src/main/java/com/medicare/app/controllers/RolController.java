@@ -1,5 +1,6 @@
 package com.medicare.app.controllers;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,9 +41,15 @@ public class RolController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Rol rol) {
-        rolService.guardar(rol);
-        return "redirect:/roles";
+    public String guardar(@ModelAttribute Rol rol, Model model) {
+        try {
+            rolService.guardar(rol);
+            return "redirect:/roles";
+        } catch (DataIntegrityViolationException nombreDuplicado) {
+            model.addAttribute("rol", rol);
+            model.addAttribute("error", "Ya existe un rol con ese nombre.");
+            return "roles/formulario";
+        }
     }
 
     @PostMapping("/eliminar/{id}")
