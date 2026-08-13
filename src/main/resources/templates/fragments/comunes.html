@@ -146,7 +146,7 @@
 <body>
 
 <!--/* Fragmento de barra de navegación reutilizable */-->
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+<nav th:fragment="navbar" class="navbar navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">MediCare</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
@@ -167,11 +167,11 @@
                     <a class="nav-link" th:href="@{/consultas}">Consultas Avanzadas</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item d-flex align-items-center me-3 text-white-50" sec:authorize="isAuthenticated()">
+            <ul class="navbar-nav border-top border-light border-opacity-25 mt-2 pt-2">
+                <li class="nav-item d-flex align-items-center py-1 text-white-50" sec:authorize="isAuthenticated()">
                     <small>Sesión: <span sec:authentication="name">usuario</span></small>
                 </li>
-                <li class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item py-1" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post" class="d-inline">
                         <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
                     </form>
